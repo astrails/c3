@@ -1122,6 +1122,8 @@
             data_onmouseout: function () {},
             data_onselected: function () {},
             data_onunselected: function () {},
+            data_ondragstart: function () {},
+            data_ondragend: function () {},
             data_url: undefined,
             data_headers: undefined,
             data_json: undefined,
@@ -5348,6 +5350,7 @@
         var $$ = this, config = $$.config;
         if ($$.hasArcType()) { return; }
         if (! config.data_selection_enabled) { return; } // do nothing if not selectable
+        $$.config.data_ondragstart.call($$);
         $$.dragStart = mouse;
         $$.main.select('.' + CLASS.chart).append('rect')
             .attr('class', CLASS.dragarea)
@@ -5359,6 +5362,7 @@
         var $$ = this, config = $$.config;
         if ($$.hasArcType()) { return; }
         if (! config.data_selection_enabled) { return; } // do nothing if not selectable
+        $$.config.data_ondragend.call($$);
         $$.main.select('.' + CLASS.dragarea)
             .transition().duration(100)
             .style('opacity', 0)
