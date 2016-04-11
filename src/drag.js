@@ -16,6 +16,8 @@ c3_chart_internal_fn.drag = function (mouse) {
     minY = (config.data_selection_grouped) ? $$.margin.top : Math.min(sy, my);
     maxY = (config.data_selection_grouped) ? $$.height : Math.max(sy, my);
 
+    if (!$$.config.data_ondrag.call($$, mouse)) { return; }
+
     main.select('.' + CLASS.dragarea)
         .attr('x', minX)
         .attr('y', minY)
@@ -60,7 +62,7 @@ c3_chart_internal_fn.dragstart = function (mouse) {
     var $$ = this, config = $$.config;
     if ($$.hasArcType()) { return; }
     if (! config.data_selection_enabled) { return; } // do nothing if not selectable
-    $$.config.data_ondragstart.call($$);
+    $$.config.data_ondragstart.call($$, mouse);
     $$.dragStart = mouse;
     $$.main.select('.' + CLASS.chart).append('rect')
         .attr('class', CLASS.dragarea)

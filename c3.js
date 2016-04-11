@@ -1123,6 +1123,7 @@
             data_onselected: function () {},
             data_onunselected: function () {},
             data_ondragstart: function () {},
+            data_ondrag: function () { return true; },
             data_ondragend: function () {},
             data_url: undefined,
             data_headers: undefined,
@@ -1189,7 +1190,7 @@
             axis_y_label: {},
             axis_y_tick_format: undefined,
             axis_y_tick_outer: true,
-            axis_y_tick_values: null,        
+            axis_y_tick_values: null,
             axis_y_tick_rotate: 0,
             axis_y_tick_count: undefined,
             axis_y_tick_time_value: undefined,
@@ -5306,6 +5307,8 @@
         minY = (config.data_selection_grouped) ? $$.margin.top : Math.min(sy, my);
         maxY = (config.data_selection_grouped) ? $$.height : Math.max(sy, my);
 
+        if (!$$.config.data_ondrag.call($$, mouse)) { return; }
+
         main.select('.' + CLASS.dragarea)
             .attr('x', minX)
             .attr('y', minY)
@@ -5350,7 +5353,7 @@
         var $$ = this, config = $$.config;
         if ($$.hasArcType()) { return; }
         if (! config.data_selection_enabled) { return; } // do nothing if not selectable
-        $$.config.data_ondragstart.call($$);
+        $$.config.data_ondragstart.call($$, mouse);
         $$.dragStart = mouse;
         $$.main.select('.' + CLASS.chart).append('rect')
             .attr('class', CLASS.dragarea)
